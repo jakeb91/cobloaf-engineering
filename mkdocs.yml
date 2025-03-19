@@ -1,0 +1,79 @@
+extra:
+  analytics:
+    provider: google
+    property: G-JH77B5SGZB
+  social: 
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:jacob@enterconnect.com.au
+    - icon: fontawesome/solid/suitcase
+      link: https://cobloaf.engineering
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.caret
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:mermaid2.fence_mermaid_custom
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tilde
+  - tables
+plugins: 
+  - asciinema-player
+  - blog:
+      categories: true
+      post_readtime: false
+  - mermaid2
+  - rss:
+      use_git: false
+      match_path: blog/posts/.* 
+      date_from_meta:
+        as_creation: date
+      categories:
+        - categories
+        - tags 
+site_description: "Opinionated blog about Network Engineering and related things"
+site_name: "Cobloaf Engineering"
+site_url: https://cobloaf.engineering
+theme:
+  custom_dir: overrides
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - content.tabs.link
+    - navigation.indexes
+    - navigation.instant
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.integrate
+  logo: assets/logo.png
+  name: material
+  palette:
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
