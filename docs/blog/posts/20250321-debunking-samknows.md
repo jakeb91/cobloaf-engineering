@@ -11,7 +11,7 @@ categories:
   - IP Transit
 ---
 
-# ACCC Measuring Broadband Reports: Measuring what?
+# ACCC Measuring Broadband Reports
 
 For the international readers, the [ACCC](https://accc.gov.au) (Australian Competition and Consumer Commission) is a Consumer Protection focused regulatory body at the level of Federal Government in Australia. In 2018, they began publishing reports related to comparing performance between various Retail Service Providers (or ISPs) on the nbn (National Broadband Network) and other fixed-line customer access networks in Australia. The ACCC has contracted SamKnows (owned by Cisco) to orchestrate the testing and collection of data that is used to produce these reports, SamKnows performs these tests by selectively distributing a testing device to Australian internet users on an opt-in basis and having them plug the device into their local network at home.
 
