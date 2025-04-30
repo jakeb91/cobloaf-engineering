@@ -19,7 +19,7 @@ Within Australia these reports have a questionable reputation at best amongst th
 
 <!-- more -->
 
-# What's Wrong with this Program?
+## What's Wrong with this Program?
 
 The first area that the ACCC's [Measuring Broadband](https://measuringbroadbandaustralia.com.au/) program falls flat, is that they don't actually publish a technical testing methodology nor actually describe in any detail what is being measured, how they are measuring it or how SamKnows compensate for errors that are not indicative of a fault on the targeted RSP's network. Whilst it's possible to infer the way it works by looking into the SamKnows speedtest website, the SamKnows measurement boxes that are planted at random houses could be performing any manner of measurements, and it will be necessary to acquire one physically and attempt to dig into the guts of it to investigate how they work in more detail.
 
@@ -38,7 +38,7 @@ So in summary, there's 4 outstanding issues that will be addressed in this artic
 
 Lastly, a fifth point would be getting a more in-depth understanding of how the test boxes work and operate, but that will need to be visited in another article as we don't have one to dig into at the time of writing.
 
-# Accuracy
+## Accuracy
 
 !!! information
 
@@ -50,7 +50,10 @@ The first thing a speedtest service needs to do well is to detect the location t
 
 Let's run a test from a 250/25 service located in Victoria, Australia.
 
-![Sam Knows Result](20250321-1-samknowsresult.png)
+<figure markdown>
+![Sam Knows Test Result](20250321-1-samknowsresult.png)
+<figcaption>Sam Knows Result</figcaption>
+</figure>
 
 261ms is quite high, digging into the Developer Console of the browser while the test is running shows that the test is primarily communicating with a server at `n21-the1.samknows.com`.
 
@@ -87,7 +90,10 @@ With this list it's possible to do some flow-data analysis and see what regions 
 
 We could also conclude that the ACCC decided that Adelaide (South Australia), Darwin (Northern Territory) and Hobart (Tasmania) were unnecessary places to have testing infrastructure located. For international readers, it is fairly typical of the federal government to neglect these areas and in some ways it is surprising to see that Perth (Western Australia) has speedtest servers.
 
+<figure markdown>
 ![Flow Data showing Destination Regions of SamKnows test servers](20250321-2-testdestinations.png)
+<figcaption>Flow Data showing Destination Regions of SamKnows test servers</figcaption>
+</figure>
 
 !!! note
 
@@ -95,12 +101,15 @@ We could also conclude that the ACCC decided that Adelaide (South Australia), Da
 
 Based on this flow-data, we can come up with the following matrix (vertical axis being a list of Speedtest server regions, horizontal axis being a list of customer regions) of which speedtest servers have served which regions within our network over the last 48 hours. Western Australia and Northern Territory have been omitted from the results, as no flow-data has been collected in that time period for any tests served from WA test servers nor to WA or NT customers on this network from the list of hosts above.
 
+<figure markdown>
 | **Speedtest Server Region** | **Queensland** | **New South Wales** | **Victoria**   | **Tasmania**   | **South Australia** |
 | --------------------------: | -------------- | ------------------- | -------------- | -------------- | ------------------- |
 |              **Queensland** | :green_circle: | :red_square:        | :red_square:   | :red_square:   | :red_square:        |
 |         **New South Wales** | :green_circle: | :green_circle:      | :red_square:   | :red_square:   | :green_circle:      |
 |                **Victoria** | :red_square:   | :red_square:        | :green_circle: | :green_circle: | :green_circle:      |
 |                 **England** | :red_square:   | :red_square:        | :green_circle: | :green_circle: | :red_square:        |
+<figcaption>Matrix of SamKnows Speedtest Server Regions (vertical) vs Customer Regions (horizontal) served by those servers</figcaption>
+</figure>
 
 One important thing that is unable to be verified at this point in time is which servers are and are not used by the SamKnows test boxes. In the flow-data above, the designated "ACCC" server in Sydney is clearly the largest single source of test traffic on this network, but it's not possible to determine if it is the only server used in the Measuring Broadband program from this data alone.
 
@@ -115,7 +124,7 @@ In particular:
 
 There are further issues that could be raised on this topic, but the point has been well established at this stage so let's move on to the next point.
 
-# Independence
+## Independence
 
 SamKnows is stated to be an independent party responsible for running the testing that collects the data for the Measuring Broadband program. It is worth pointing out that SamKnows is owned by Cisco, whom have various significant commercial agreements with Telstra (Australia's largest telco and RSP) and a number of other Australian RSPs.
 
@@ -131,7 +140,7 @@ As far as the infrastructure that SamKnows is operating on within Australia is c
 
 On the surface, SamKnows seems to be reasonably independent as a test operator.
 
-# Disclosure
+## Disclosure
 
 I will get straight to the point here, the ACCC has a disclosure problem with the Measuring Broadband reports.
 
@@ -141,7 +150,10 @@ The SamKnows test servers that Datacamp host sit in AS212238 (Datacamp), whose o
 
 Let's look at CDN77's IP Transit providers that provide a route to `95.173.193.0/24` (courtesy of [BGP Tools](https://bgp.tools)):
 
+<figure markdown>
 ![BGP Tools AS Graph](20250321-3-bgptools.png)
+<figcaption>BGP Tools AS Graph</figcaption>
+</figure>
 
 AS60068 Upstream's are as follows:
 
@@ -154,7 +166,7 @@ Telstra by far have the most domestic IP Transit capacity and capability of all 
 
 It absolutely needs to be said that it's imperative that a program of this nature be run in a carrier-neutral way to be worthy of credibility, and that the onus of being carrier-neutral lies with the test operator, not the test subjects.
 
-# Authenticity
+## Authenticity
 
 Getting straight to the point here as-well, it's easy for an RSP to fudge their Measuring Broadband results. All it takes is a Quality of Service policy that prioritises traffic to and from the SamKnows test servers over other traffic. The RSP could have backhaul links to an nbn POI that are being maxed out, but this won't be reflected in the tests as the traffic is being prioritised on the congested link.
 
@@ -162,7 +174,7 @@ On the flip-side, an RSP might be justified in prioritising SamKnows traffic, as
 
 It's also easy for a bad actor (or a bad customer router!) to hamper the performance of the SamKnows box, as it sits _behind_ the customer router and is beholden to any QoS policies it may be imposing as-well, potentially poisoning the results.
 
-# Conclusion
+## Conclusion
 
 The ACCC Measuring Broadband program is flawed, pointing users to geographically inappropriate test servers, lacking in information that allows RSPs to improve their services, has some serious conflicts of interest and suffers from a data-integrity problem in that SamKnows has no real way to identify if the data being collected is authentic and free from interference or truly reflective of user experience.
 

@@ -14,7 +14,7 @@ Some of you might be familiar with the Cloudflare-backed website [isbgpsafeyet.c
 
 <!-- more -->
 
-# How does it work?
+## How does it work?
 
 First we need to figure out how this website works and decides if BGP on your website is safe or not. They don't actually bother to explain this anywhere, and searching for it doesn't really return any super useful results.
 
@@ -40,7 +40,7 @@ That's odd, this seems _way_ too simple to actually be doing any actual verifica
 
 ---
 
-# Digging Further
+## Digging Further
 
 The URLs this Javascript is fetching don't return any particularly useful data - just some JSON fields as you'll see later in the article, and effectively it's just a boolean "depending on which URL works, BGP is or isn't safe". But I thought surely I had gotten it wrong and that [isbgpsafeyet.com](https://isbgpsafeyet.com) wasn't this shallow.
 
@@ -118,13 +118,13 @@ jacob@cobloaf:~$ sudo firewall-cmd --add-rich-rule="rule family=ipv4 destination
 
 Now let's try it again!
 
-![BGP Isn't Safe Yet](20250109-isbgpsafeyetyes.png)
+![BGP Is Safen't](20250109-isbgpsafeyetyes.png)
 
 ... well then.
 
 ---
 
-# BGP Is Safe Now!
+## BGP Is Safe Now!
 
 !!! danger "Nuclear Level of Sarcasm"
 
@@ -149,7 +149,7 @@ As you can see, Cloudflare state that `103.21.244.0/22` is a valid network that 
 
 ---
 
-# Conclusion
+## Conclusion
 
 So my tone in this article may indicate to you that I have a problem with what Cloudflare is doing here - and you would be right to think so.
 

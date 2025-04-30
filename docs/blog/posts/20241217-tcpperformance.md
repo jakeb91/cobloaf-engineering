@@ -22,19 +22,20 @@ In this article we'll cover a bit about what kind of performance you can expect 
 
     Forgive me, internet overlords <3
 
-# Packet Loss
+## Packet Loss
 
 It's important to consider that packet-loss comes in many forms. One of those forms is transmission reliability, and no transmission medium is capable of 100% successful packet delivery.
 
 One of the metrics that can be used to predict the minimum level of packet-loss to expect is the Bit Error Ratio (or `BER`).
 
+<figure markdown>
 |  Access Technology | Bit Error Ratio\* |
 | -----------------: | ----------------- |
 |        FTTP (GPON) | 1e^-9^            |
 |   HFC (DOCSIS 3.1) | 1e^-9^            |
 | FTTN / FTTC (VDSL) | 1e^-7^            |
-
-\*_Typical figures - DOCSIS 3.1 is best-case scenario_
+<figcaption>*Typical figures - DOCSIS 3.1 is best-case scenario</figcaption>
+</figure>
 
 The above table suggests for example that, one in every 1 billion bits on FTTP will be errored. These values could be considered the absolute minimum level of packet-loss that occurs at any time on any one internet connection. In reality it is possible that these mediums could be more or less reliable than what is stated in this table, however these are all values that could be considered within normal operating ranges.
 
@@ -60,6 +61,7 @@ We know our absolute minimum Loss Rate is equal to the Bit Error Ratios for the 
 
 Below is a table showing various maximum attainable TCP throughput for difference combinations of latency and loss. It only takes the smallest amount of intuition to realise that the idea of consistent 99.999999999% (**1e^-9^ Loss Rate**) packet delivery between two distant locations such as Australia and Europe over the general internet is not a reasonable expectation.
 
+<figure markdown>
 | **RTT(ms)** | **BER(Loss Rate)** |            |            |            |            |            | **MSS: 11680** |
 | ----------: | ------------------ | ---------- | ---------- | ---------- | ---------- | ---------- | -------------- |
 |             | **1e^-3^**         | **1e^-4^** | **1e^-5^** | **1e^-6^** | **1e^-7^** | **1e^-8^** | **1e^-9^**     |
@@ -67,19 +69,23 @@ Below is a table showing various maximum attainable TCP throughput for differenc
 |    **30ms** | 12.31Mbps          | 38.93Mbps  | 123.12Mbps | 389.33Mbps | 1,231Mbps  | 3,893Mbps  | 12,311Mbps     |
 |   **100ms** | 3.69Mbps           | 11.68Mbps  | 36.94Mbps  | 116.80Mbps | 369.35Mbps | 1,168Mbps  | 3,693Mbps      |
 |   **300ms** | 1.23Mbps           | 3.89Mbps   | 12.31Mbps  | 38.93Mbps  | 123.12Mbps | 389.33Mbps | 1,231Mbps      |
+<figcaption>Maximum Attainable TCP Throughput by Latency and BER</figcaption>
+</figure>
 
 And to aid reading above
 
+<figure markdown>
 | **Scientific Notation** | **Decimal** |
 | ----------------------: | ----------- |
 |                  1e^-3^ | 0.001       |
 |                  1e^-5^ | 0.00001     |
 |                  1e^-7^ | 0.0000001   |
 |                  1e^-9^ | 0.000000001 |
-
+<figcaption>Scientific Notation to Decimal formatting</figcaption>
+</figure>
 ---
 
-# High Latency TCP Performance on VPNs
+## High Latency TCP Performance on VPNs
 
 Many (meaning some, but not _all_) VPNs implement their own flavours of "TCP Acceleration" mechanisms. There are various proxying techniques available for TCP that can be leveraged on a VPN, some of these techniques can seem quite hacky but do work to improve performance. And hey - TCP is older than most of the people reading this article, it's a given that we would have to start hacking at it to make it keep up with technology around it. To research further, you can research techniques such as _TCP Synproxy_ for example, although that is not necessarily for improving throughput speeds.
 

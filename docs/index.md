@@ -1,26 +1,17 @@
 ---
 hide:
   - navigation
+  - toc
   - title
 ---
 
 #
 
-```asciinema-player
-{
-  "title": "./cobloaf.sh",
-  "file": "cobloaf.cast",
-  "cols": 140,
-  "rows": 45,
-  "auto_play": true,
-  "mkap_theme": "none",
-  "fit": "none",
-  "terminalFontSize": "8px",
-  "terminal_line_height": "0.85"
-}
-```
-
-G'Day reader!
+<figure markdown>
+![Cobloaf Logo](assets/logo.png#only-dark){ .glb-off }
+![Cobloaf Logo](assets/logolight.png#only-light){ .glb-off }
+<figcaption>G'Day Cobba!</figcaption>
+</figure>
 
 **For end-users**, this blog contains my personal opinions based on well over a decade of witnessing various IT & Telecommunications engineering or customer-service disasters where either companies or customers shoot themselves in the foot for reasons of varying complexity. In expressing these opinions I will often make fun of people that watch Linus Tech-Tips or subscribe to the Apple eco-system, for example. This is just banter so don't stress.
 
