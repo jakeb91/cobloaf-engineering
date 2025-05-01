@@ -151,7 +151,7 @@ The SamKnows test servers that Datacamp host sit in AS212238 (Datacamp), whose o
 Let's look at CDN77's IP Transit providers that provide a route to `95.173.193.0/24` (courtesy of [BGP Tools](https://bgp.tools)):
 
 <figure markdown>
-![BGP Tools AS Graph](20250321-3-bgptools.png)
+![BGP Tools AS Graph](20250321-3-bgptools.png){ style: "font-family: var(--md-text-font-family)"}
 <figcaption>BGP Tools AS Graph</figcaption>
 </figure>
 

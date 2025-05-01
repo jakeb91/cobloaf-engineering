@@ -7,6 +7,8 @@ extra:
       link: mailto:jacob@enterconnect.com.au
     - icon: fontawesome/solid/suitcase
       link: https://cobloaf.engineering
+extra_css:
+  - stylesheets/extra.css
 markdown_extensions:
   - admonition
   - attr_list
