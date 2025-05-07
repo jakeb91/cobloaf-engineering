@@ -134,7 +134,7 @@ So what have we actually just done?
 
 On the network these tests were run from, RPKI Signing is indeed not enforced - however it does implement IRR-based prefix filtering, prefix limits and signs it's own originated routes with RPKI.
 
-The network is receiving a route to `103.21.244.0/24` over Bilateral Peering Sessions with AS13335(Cloudflare). It goes without saying that the general peering policy of any network is that IRR records should be accurate and regularly maintained, and indeed this is part of **MANRS**. However it looks like Cloudflare are not only intentionally advertising an unsigned prefix, but they're also declaring it as a valid route in their IRR records that have long been the defacto standard for ensuring only valid prefixes are accepted from a peer.
+The network is receiving a route to `103.21.244.0/24` over Bilateral Peering Sessions with AS13335(Cloudflare). It goes without saying that the general peering policy of any network is that IRR records should be accurate and regularly maintained, and indeed this is part of **MANRS**. However it looks like Cloudflare are not only intentionally advertising an unsigned prefix, ~~but they're also declaring it as a valid route in their IRR records~~ they are intentionally advertising routes against these policies as-well.
 
 We know that the `AS-SET` that Cloudflare have declared as representing valid prefixes for BGP peers to accept from them is `AS13335:AS-CLOUDFLARE` based on their [PeeringDB](https://as13335.peeringdb.com) entry.
 
@@ -145,7 +145,7 @@ jacob@cobloaf:~$ bgpq4 AS13335:AS-CLOUDFLARE -F %n/%l\\n | grep 103.21.244
 103.21.244.0/22
 ```
 
-As you can see, Cloudflare state that `103.21.244.0/22` is a valid network that all peers should be accepting from their network.
+As you can see, Cloudflare state that `103.21.244.0/22` is a valid network that all peers should be accepting from their network, however they aren't announcing this route, only `103.214.244.0/24` is.
 
 ---
 
