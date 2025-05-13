@@ -3,8 +3,8 @@ extra:
     provider: google
     property: G-JH77B5SGZB
   social: 
-    - icon: fontawesome/solid/paper-plane
-      link: mailto:jacob@enterconnect.com.au
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/jacob-bisby-17b9293b/
     - icon: fontawesome/solid/suitcase
       link: https://cobloaf.engineering
 extra_css:
