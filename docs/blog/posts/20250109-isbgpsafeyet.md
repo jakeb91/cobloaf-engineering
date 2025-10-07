@@ -10,7 +10,7 @@ categories:
 
 # Is BGP _Really_ Safe Yet?
 
-Some of you might be familiar with the Cloudflare-backed website [isbgpsafeyet.com](https://isbgpsafeyet.com). But have you ever wondered _how_ this website is assessing the BGP safety of the network you're accessing it from? I certainly did, and the result was rather interesting...
+Some of you might be familiar with the Cloudflare-backed website [isbgpsafeyet.com](https://isbgpsafeyet.com). But have you ever wondered _how_ this website is assessing the BGP safety of the network you're accessing it from? I certainly did, and the result was rather interesting…
 
 <!-- more -->
 
@@ -20,7 +20,7 @@ First we need to figure out how this website works and decides if BGP on your we
 
 So our two options really are to look at the source-code for the website, which we can either directly do in the browser dev-console or in Cloudflare's [GitHub Repo](https://github.com/cloudflare/isbgpsafeyet.com).
 
-Immediately what catches my attention when looking at the source is this Javascript:
+Immediately what catches my attention when looking at the source is this JavaScript:
 
 ```js title="/src/js/index.js"
 const successMessageDetails = `${""}fetch https://valid.rpki.isbgpsafeyet.com
@@ -42,7 +42,7 @@ That's odd, this seems _way_ too simple to actually be doing any actual verifica
 
 ## Digging Further
 
-The URLs this Javascript is fetching don't return any particularly useful data - just some JSON fields as you'll see later in the article, and effectively it's just a boolean "depending on which URL works, BGP is or isn't safe". But I thought surely I had gotten it wrong and that [isbgpsafeyet.com](https://isbgpsafeyet.com) wasn't this shallow.
+The URLs this JavaScript code is fetching doesn't return any particularly useful data — just some JSON fields as you'll see later in the article, and effectively it's just a boolean “depending on which URL works, BGP is or isn't safe”. But I thought surely I had gotten it wrong and that [isbgpsafeyet.com](https://isbgpsafeyet.com) wasn't this shallow.
 
 Well, let's dig a bit further and find out.
 
@@ -81,7 +81,7 @@ invalid.rpki.cloudflare.com.
 2606:4700:7000::6715:f409
 ```
 
-Simple enough - for now we'll just focus on the IPv4 addresses to keep things short.
+Simple enough — for now we'll just focus on the IPv4 addresses to keep things short.
 
 So what happens when we `traceroute` and `cURL` the URLs from a test machine?
 
@@ -120,7 +120,7 @@ Now let's try it again!
 
 ![BGP Is Safen't](20250109-isbgpsafeyetyes.png)
 
-... well then.
+…well then.
 
 ---
 
@@ -132,9 +132,9 @@ Now let's try it again!
 
 So what have we actually just done?
 
-On the network these tests were run from, RPKI Signing is indeed not enforced - however it does implement IRR-based prefix filtering, prefix limits and signs it's own originated routes with RPKI.
+On the network these tests were run from, RPKI Signing is indeed not enforced — however it does implement IRR-based prefix filtering, prefix limits and signs its own originated routes with RPKI.
 
-The network is receiving a route to `103.21.244.0/24` over Bilateral Peering Sessions with AS13335(Cloudflare). It goes without saying that the general peering policy of any network is that IRR records should be accurate and regularly maintained, and indeed this is part of **MANRS**. However it looks like Cloudflare are not only intentionally advertising an unsigned prefix, ~~but they're also declaring it as a valid route in their IRR records~~ they are intentionally advertising routes against these policies as-well.
+The network is receiving a route to `103.21.244.0/24` over Bilateral Peering Sessions with AS13335(Cloudflare). It goes without saying that the general peering policy of any network is that IRR records should be accurate and regularly maintained, and indeed this is part of **MANRS**. However, it looks like Cloudflare are not only intentionally advertising an unsigned prefix, they are intentionally advertising routes against these policies as-well.
 
 We know that the `AS-SET` that Cloudflare have declared as representing valid prefixes for BGP peers to accept from them is `AS13335:AS-CLOUDFLARE` based on their [PeeringDB](https://as13335.peeringdb.com) entry.
 
@@ -145,19 +145,17 @@ jacob@cobloaf:~$ bgpq4 AS13335:AS-CLOUDFLARE -F %n/%l\\n | grep 103.21.244
 103.21.244.0/22
 ```
 
-As you can see, Cloudflare state that `103.21.244.0/22` is a valid network that all peers should be accepting from their network, however they aren't announcing this route, only `103.214.244.0/24` is.
+As you can see, Cloudflare state that `103.21.244.0/22` is a valid network that all peers should be accepting from their network, however it's not RPKI signed and nor are they announcing this route, only `103.214.244.0/24` is being announced (which is also not RPKI signed).
 
 ---
 
 ## Conclusion
 
-So my tone in this article may indicate to you that I have a problem with what Cloudflare is doing here - and you would be right to think so.
+So my tone in this article may indicate to you that I have a problem with what Cloudflare is doing here — and you would be right to think so.
 
 - Am I against RPKI Signing? _Certainly not._
 - Am I unhappy that Cloudflare is intentionally breaching known peering conventions to manufacture outrage amongst users about RPKI, many of whom don't know any better? _A little bit._
 
-But really my problem is that a website called [isbgpsafeyet.com](https://isbgpsafeyet.com) will tell anyone in the world that any BGP AS is safe as long as it blocks or filters two Cloudflare IPv4 / IPv6 Addresses, whilst failing to explain how the tool is working and what other methods of security Cloudflare are intentionally circumventing in the process to facilitate the functionality of the tool.
+But really my issue is that a website called [isbgpsafeyet.com](https://isbgpsafeyet.com) will tell anyone in the world that any BGP AS is safe as long as it blocks or filters two Cloudflare IPv4 / IPv6 Addresses. It does this whilst failing to explain how the tool is working, nor what other methods of security Cloudflare are intentionally circumventing in the process to facilitate the functionality of the tool.
 
 At best, it is rather disingenuous in my opinion.
-
-So, Is BGP _Really_ Safe Yet just because Cloudflare say it is? :smile:
