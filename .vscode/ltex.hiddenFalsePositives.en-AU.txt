@@ -1,1 +1,0 @@
-{"rule":"MORFOLOGIK_RULE_EN_AU","sentence":"^\\QWith a bit more digging done by some colleagues, a very well-educated guess indicates that this server is located in \"Telehouse North”, a datacentre based in England, UK.\\E$"}
