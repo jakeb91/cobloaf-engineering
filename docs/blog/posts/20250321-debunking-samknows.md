@@ -23,20 +23,20 @@ Within Australia these reports have a questionable reputation at best amongst th
 
 The first area that the ACCC's [Measuring Broadband](https://measuringbroadbandaustralia.com.au/) program falls flat, is that they don't actually publish a technical testing methodology nor actually describe in any detail what is being measured, how they are measuring it or how SamKnows compensate for errors that are not indicative of a fault on the targeted RSP's network. Whilst it's possible to infer the way it works by looking into the SamKnows speedtest website, the SamKnows measurement boxes that are planted at random houses could be performing any manner of measurements, and it will be necessary to acquire one physically and attempt to dig into the guts of it to investigate how they work in more detail.
 
-The ACCC do publish some performative fluff in their [Broadband Performance Data Explained](https://www.accc.gov.au/consumers/telecommunications-and-internet/broadband-performance-data/broadband-performance-data-explained) article, and of particular interest they explicitly state that the data is accurate and independent (which will also be examined in this article). It is unfortunate that this article simply suggests to RSPs to "resolve network issues" or upgrade customers to higher speed tiers as a solution to negative test results, rather than providing information that would allow RSPs to identify and resolve issues. These test results have a considerable impact on brand reputation, and may be particularly challenging for smaller RSPs to navigate and market around.
+The ACCC do publish some performative fluff in their [Broadband Performance Data Explained](https://www.accc.gov.au/consumers/telecommunications-and-internet/broadband-performance-data/broadband-performance-data-explained) article, and of particular interest they explicitly state that the data is accurate and independent (which will also be examined in this article). It is unfortunate that this article simply suggests to RSPs to “resolve network issues” or upgrade customers to higher speed tiers as a solution to negative test results, rather than providing information that would allow RSPs to identify and resolve issues. These test results have a considerable impact on brand reputation, and may be particularly challenging for smaller RSPs to navigate and market around.
 
-There is also no disclosure as to who actually operates the networks that the testing infrastructure is using, nor is there any information that discloses known outages or service impacts that affected the availability or performance of the test service itself.
+There is also no disclosure as to who actually operates the networks that the testing infrastructure is using. There is no information that discloses known outages or service impacts that affected the availability or performance of the test service itself.
 
 Finally, there is no binding agreement which RSPs enter into that legally prevents them from interfering with the results of these tests. This means that it's possible (and very easy) to implement network policies that prioritise traffic to and from SamKnows test nodes to artificially inflate the test results. However, there might actually be some good reasons for certain RSPs to be doing this, due to the way SamKnows Australian infrastructure is hosted.
 
-So in summary, there's 4 outstanding issues that will be addressed in this article:
+So in summary, there are 4 outstanding issues that will be addressed in this article:
 
 - [Accuracy](#accuracy) of the data reported
 - [Independence](#independence) of the testing
 - [Disclosure](#disclosure) by the ACCC
 - [Authenticity](#authenticity) of test data
 
-Lastly, a fifth point would be getting a more in-depth understanding of how the test boxes work and operate, but that will need to be visited in another article as we don't have one to dig into at the time of writing.
+Lastly, a fifth point would be getting a more in-depth understanding of how the test boxes work and operate. That will need to be visited in another article as we don't have one to dig into at the time of writing.
 
 ## Accuracy
 
@@ -46,7 +46,7 @@ Lastly, a fifth point would be getting a more in-depth understanding of how the 
 
 First up is accuracy of the testing that SamKnows is performing.
 
-The first thing a speedtest service needs to do well is to detect the location the test is being run from accurately, so it can be tested from an appropriate test server. For the purposes of evaluating an RSP network there is little point in testing a path that spans infrastructure halfway across the globe owned and operated by dozens of different companies, as it introduces a huge number of uncontrollable variables that the RSP often has little to no control over.
+The first thing a speedtest service needs to do well is to detect the location the test is being run from accurately, so it can be tested from an appropriate test server. For the purposes of evaluating an RSP network, there is little point in testing a path that spans infrastructure halfway across the globe owned and operated by dozens of different companies. Doing so introduces a huge number of uncontrollable variables that the RSP often has little to no control over.
 
 Let's run a test from a 250/25 service located in Victoria, Australia.
 
@@ -57,11 +57,11 @@ Let's run a test from a 250/25 service located in Victoria, Australia.
 
 261ms is quite high, digging into the Developer Console of the browser while the test is running shows that the test is primarily communicating with a server at `n21-the1.samknows.com`.
 
-With a bit more digging done by some colleagues, a very well educated guess indicates that this server is located in "Telehouse North", a datacenter based in England, UK.
+With a bit more digging done by some colleagues, a very well-educated guess indicates that this server is located in Telehouse North, a datacentre based in England, UK.
 
-Now already, this isn't really acceptable. SamKnows have extensive Speedtest infrastructure in Australia, and the geo-location information for the network this test was run from is published in accordance with [RFC8805](https://www.rfc-editor.org/rfc/rfc8805.html), is searchable in accordance with [RFC9632](https://www.rfc-editor.org/rfc/rfc9632.html) and is correct in all major geo-location databases. This brings into question; how much of the Measuring Broadband test data might be derived from tests performed against poorly geo-located test servers?
+Now already, this isn't really acceptable. SamKnows have extensive Speedtest infrastructure in Australia, and the geolocation information for the network this test was run from is published in accordance with [RFC8805](https://www.rfc-editor.org/rfc/rfc8805.html), is searchable in accordance with [RFC9632](https://www.rfc-editor.org/rfc/rfc9632.html) and is correct in all major geolocation databases. This brings into question; how much of the Measuring Broadband test data might be derived from tests performed against poorly geolocated test servers?
 
-SamKnows do not offer a way to manually select the correct region to perform the test in, and whilst it is likely possible to force a particular server to be used with some editing tricks in the browser's Developer Console, the speedtest client itself (served via webpack at `webpack:///~/@samknows/web-sdk/dist/speedtest.js` and various other scripts that feed it configuration information) is comprised of heavily obfuscated code that is non-trivial to reverse-engineer.
+SamKnows do not offer a way to manually select the correct region to perform the test in, and whilst it is likely possible to force a particular server to be used with some editing tricks in the browser's Developer Console, the speedtest client itself (served via webpack at `webpack:///~/@samknows/web-sdk/dist/speedtest.js` and various other scripts that feed it configuration information) comprises heavily obfuscated code that is non-trivial to reverse-engineer.
 
 However, there are easier ways to determine the possible list of servers they offer to test requests in Australia which I won't go into in this article. The list below is not exhaustive but is reasonably comprehensive:
 
@@ -111,14 +111,14 @@ Based on this flow-data, we can come up with the following matrix (vertical axis
 <figcaption>Matrix of SamKnows Speedtest Server Regions (vertical) vs Customer Regions (horizontal) served by those servers</figcaption>
 </figure>
 
-One important thing that is unable to be verified at this point in time is which servers are and are not used by the SamKnows test boxes. In the flow-data above, the designated "ACCC" server in Sydney is clearly the largest single source of test traffic on this network, but it's not possible to determine if it is the only server used in the Measuring Broadband program from this data alone.
+One important thing that is unable to be verified at this point in time is which servers are and are not used by the SamKnows test boxes. In the flow-data above, the designated ACCC server in Sydney is clearly the largest single source of test traffic on this network, but it's not possible to determine if it is the only server used in the Measuring Broadband program from this data alone.
 
 The only reasonable conclusion to come to here is that Measuring Broadband reports are potentially based on some seriously compromised and misrepresented data-sets.
 
 In particular:
 
-- Providing test servers in only 4 out of 8 mainland Australian states and territories, two of which (Northern Territory and Tasmania) have a well earned reputation for being difficult and expensive to maintain good and reliable connectivity to from the rest of the country, is a failure that in a-lot of cases is not indicative of an RSP failing to correctly operate a network or provide a good quality service in those regions. It is fair to say that these regions suffer from a lack of ~~Senators and Members of Parliament~~ infrastructure investment.
-- In the case of nbn, most outages occur within the nbn network itself and they often do not affect all RSPs equally. nbn also (in my anecdotal experience) have a reputation for mis-reporting or denying the occurrence of some outages entirely, and it becomes even more of a contentious issue when it comes down to issues on the nbn network that impact service performance rather than causing a service outage. There is no indication from the ACCC as to whether the Measuring Broadband reports are integrated with outage or incident information from nbn or not.
+- Providing test servers in only 4 out of 8 mainland Australian states and territories, two of which (Northern Territory and Tasmania) have a well-earned reputation for being difficult and expensive to maintain good and reliable connectivity to from the rest of the country, is a failure that in many cases is not indicative of an RSP failing to correctly operate a network or provide a good quality service in those regions. It is fair to say that these regions suffer from a lack of ~~Senators and Members of Parliament~~ infrastructure investment.
+- In the case of nbn, most outages occur within the nbn network itself, and they often do not affect all RSPs equally. nbn also (in my anecdotal experience) have a reputation for mis-reporting or denying the occurrence of some outages entirely, and it becomes even more of a contentious issue when it comes down to issues on the nbn network that impact service performance rather than causing a service outage. There is no indication from the ACCC whether the Measuring Broadband reports are integrated with outage or incident information from nbn or not.
 - The serving of tests from the UK which may be happening at random will massively skew any results pertaining to jitter and packet-loss, and inherently will record lower download speeds due to the effect of latency on TCP-based speed-testing.
 - There's no information pertaining to who is responsible for the outages being recorded, nor what actually even constitutes an outage, but they are statistics being attributed to RSPs in the report anyway. It is very likely that infrastructure damage caused by Tropical Cyclone Alfred in Queensland and New South Wales will be attributed as outages towards RSPs in the Measuring Broadband report that covers the March 2025 testing period. If the outage data is excluded for the reporting period, it is indicative that the data for attributing correct blame for an outage just hasn't been getting collected in the first place.
 
@@ -130,7 +130,7 @@ SamKnows is stated to be an independent party responsible for running the testin
 
 But SamKnows itself is essentially just a software product, neither they nor Cisco own or operate any of the actual infrastructure that the service is run on (more on that in [Disclosure](#disclosure)).
 
-SamKnows as a product appears to have largely been borged into [ThousandEyes](https://www.thousandeyes.com/), another black-box product used for measuring and monitoring network performance. The [SamKnows One](https://samknows.one) portal remains available but with no sign-up button and instead a slightly smoke-and-mirrors message for those who wish to sign-up. Due to the proprietary nature of the software behind SamKnows and ThousandEyes, I believe it is unlikely that the testing methodology being used to generate the Measuring Broadband reports will be able to be revealed due to various legal and commercial restrictions.
+SamKnows as a product appears to have largely been borged into [ThousandEyes](https://www.thousandeyes.com/), another black-box product used for measuring and monitoring network performance. The [SamKnows One](https://samknows.one) portal remains available but with no sign-up button and instead a slightly smoke-and-mirrors message for those who wish to sign up. Due to the proprietary nature of the software behind SamKnows and ThousandEyes, I believe it is unlikely that the testing methodology being used to generate the Measuring Broadband reports will be able to be revealed due to various legal and commercial restrictions.
 
 As far as the infrastructure that SamKnows is operating on within Australia is concerned, they utilise the following providers:
 
@@ -164,7 +164,7 @@ AS60068 Upstream's are as follows:
 
 Telstra by far have the most domestic IP Transit capacity and capability of all four of the above providers. They are also literally a competitor to every single RSP that could possibly appear in the Measuring Broadband report, and are being left responsible for _delivering their own competitor's test traffic_ in certain scenarios. I have not been able to find a single mention or disclosure of this conflict of interest anywhere in the ACCCs information about the reports.
 
-It absolutely needs to be said that it's imperative that a program of this nature be run in a carrier-neutral way to be worthy of credibility, and that the onus of being carrier-neutral lies with the test operator, not the test subjects.
+It absolutely needs to be said that it's imperative that a program of this nature be run in a carrier-neutral way to be worthy of credibility. The onus of being carrier-neutral also lies with the test operator, not the test subjects.
 
 ## Authenticity
 

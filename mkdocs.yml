@@ -48,7 +48,6 @@ markdown_extensions:
   - toc:
       permalink: true
 plugins: 
-  - asciinema-player
   - blog:
       categories: true
       post_readtime: false
